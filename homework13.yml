@@ -84,7 +84,7 @@
         region: eu-west-1
         wait: yes
         count: 1
-        vpc_subnet_id: "{{ deployinstance_subnet_subnet.subnet.id }}"
+        vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
         instance_tags:
           Name: deployinstance
