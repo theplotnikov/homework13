@@ -70,7 +70,7 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-        count: 1
+#        count: 1
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
         count_tag:
@@ -88,7 +88,7 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-        count: 1
+#        count: 1
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
         count_tag:
