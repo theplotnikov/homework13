@@ -9,9 +9,9 @@
         region: eu-west-1
       register: ansiblekey1
 
-    - name: save key1 on localhost
+    - name: save ansiblekey1 on localhost
       copy: content="{{ ansiblekey1.key.private_key }}" dest="./ansiblekey1.pem" mode=0600
-      when: key1.changed
+      when: ansiblekey1.changed
 
     - name: create security group for buildinstance
       ec2_group:
