@@ -76,6 +76,9 @@
         instance_tags:
           Name: buildinstance
       register: buildinstance
+      count_tag:
+        Name: buildinstance
+      exact_count: 1
 
     - name: create deployinstance
       ec2:
@@ -90,6 +93,9 @@
         instance_tags:
           Name: deployinstance
       register: deployinstance
+      count_tag:
+        Name: deployinstance
+      exact_count: 1
 
 - name: prepare instance for build
   hosts: 18.202.217.112
