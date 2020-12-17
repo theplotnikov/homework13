@@ -74,7 +74,7 @@
       register: igw
 
 
-    - name: Set up public subnet route table
+    - name: create public subnet routing table
       ec2_vpc_route_table:
         vpc_id: "{{ homework.vpc.id }}"
         region: eu-west-1
@@ -103,7 +103,6 @@
         instance_tags:
           Name: buildinstance
       register: buildinstance
-
 
     - name: create deployinstance
       ec2:
