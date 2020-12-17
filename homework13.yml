@@ -92,7 +92,7 @@
       register: deployinstance
 
 - name: prepare instance for build
-  hosts: "{{ buildinstance }}"
+  hosts: 18.202.217.112
   become: yes
   tasks:
 
@@ -122,7 +122,7 @@
         flat: yes
 
 - name: run war in deployinstance
-  hosts: "{{ buildinstance }}"
+  hosts: 54.246.33.224
   become: yes
 
   tasks:
