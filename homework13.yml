@@ -1,0 +1,26 @@
+---
+- name: create aws ec2 instances
+  hosts: local
+  connection: local
+  tasks:
+    - name: create key pair
+      ec2_key:
+        name: ansiblekey1
+        region: eu-west-1
+      register: ansiblekey1
+
+    - name: save key1 on localhost
+      copy: content="{{ ansiblekey1.key.private_key }}" dest="./ansiblekey1.pem" mode=0600
+      when: key1.changed
+
+    - name: create
+      ec2:
+        key_name: ansiblekey1
+        instance_type: t2.micro
+        image: ami-0dc8d444ee2a42d8a
+        region: eu-west-1
+        wait: yes
+        group: ansible
+        count: 2
+        vpc_subnet_id: subnet-088ccb52
+        assign_public_ip: yes
