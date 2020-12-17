@@ -81,10 +81,9 @@
         tags:
           Name: public
         subnets:
-          - "{{ jumpbox_subnet.subnet.id }}"
-          - "{{ frontend_subnet.subnet.id }}"
-          - "{{ vpn_subnet.subnet_id }}"
-        routes:
+          - "{{ buildinstance_subnet.subnet.id }}"
+          - "{{ deployinstance_subnet.subnet.id }}"
+         routes:
           - dest: 0.0.0.0/0
             gateway_id: "{{ igw.gateway_id }}"
       register: public
