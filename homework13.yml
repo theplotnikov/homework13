@@ -89,4 +89,9 @@
         instance_tags:
           Name: deployinstance
 
+    - name: add host to group 'just_created' with variable foo=42
+      add_host:
+        name: "{{ ip_from_ec2 }}"
+        foo: 42
+
 #- name: prepare instance for build
