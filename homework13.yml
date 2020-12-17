@@ -73,12 +73,13 @@
         count: 1
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
-        instance_tags:
-          Name: buildinstance
-      register: buildinstance
         count_tag:
           Name: buildinstance
         exact_count: 1
+        instance_tags:
+          Name: buildinstance
+      register: buildinstance
+
 
     - name: create deployinstance
       ec2:
@@ -90,13 +91,12 @@
         count: 1
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
-        instance_tags:
-          Name: deployinstance
-      register: deployinstance
         count_tag:
           Name: deployinstance
         exact_count: 1
-
+        instance_tags:
+          Name: deployinstance
+      register: deployinstance
 
 - name: prepare instance for build
   hosts: 18.202.217.112
