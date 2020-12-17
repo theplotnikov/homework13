@@ -36,28 +36,32 @@
             cidr_ip: 0.0.0.0/0
 
     - name: create vpc
-      ec2_vpc:
-        state: present
+      ec2_vpc_net:
+        name: homework
         cidr_block: 172.30.30.0/24
-        resource_tags: { "homework" }
-        subnets:
-          - cidr: 172.30.30.11/32
-            az: us-west-1a
-            resource_tags: { "homework","build" }
-          - cidr: 172.30.30.12/32
-            az: us-west-1a
-            resource_tags: { "homework","deploy" }
-        internet_gateway: True
-        route_tables:
-          - subnets:
-              - 172.30.30.11/32
-              - 172.30.30.12/32
-            routes:
-              - dest: 0.0.0.0/0
-                gw: igw
-        region: us-west-1
-      register: vpc
+        region: eu-west-1
+        tags:
+          module: ec2_vpc_net
+          this: works
+        tennacy: dedicated
 
+    - name: create subnet for buildinstance
+      ec2_vpc_subnet:
+        state: present
+        vpc_id: homework
+        cidr: 172.30.30.11/32
+        resource_tags:
+          Name: buildinstance subnet
+      register: buildinstance_subnet
+
+    - name: create subnet for deployinstance
+      ec2_vpc_subnet:
+        state: present
+        vpc_id: homework
+        cidr: 172.30.30.12/32
+        resource_tags:
+          Name: deployinstance subnet
+      register: deployinstance_subnet
 
     - name: create buildinstance
       ec2:
@@ -68,7 +72,7 @@
         wait: yes
         group: buildinstance
         count: 1
-        vpc_subnet_id: build
+        vpc_subnet_id: buildinstance_subnet
         assign_public_ip: yes
 
     - name: create deployinstance
@@ -79,6 +83,6 @@
         region: eu-west-1
         wait: yes
         group: deployinstance
-        count: 1
-        vpc_subnet_id: deploy
+        count: 1d
+        vpc_subnet_id: deployinstance_subnet
         assign_public_ip: yes
