@@ -43,7 +43,7 @@
         tags:
           module: ec2_vpc_net
           this: works
-        tennacy: dedicated
+#        tennacy: dedicated
 
     - name: create subnet for buildinstance
       ec2_vpc_subnet:
