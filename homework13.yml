@@ -53,7 +53,7 @@
         cidr: 172.30.1.0/24
         resource_tags:
           Name: buildinstance subnet
-      register: buildinstance_subnet
+№      register: buildinstance_subnet
 
     - name: create subnet for deployinstance
       ec2_vpc_subnet:
@@ -62,7 +62,7 @@
         cidr: 172.30.2.0/24
         resource_tags:
           Name: deployinstance subnet
-      register: deployinstance_subnet
+№      register: deployinstance_subnet
 
     - name: create buildinstance
       ec2:
@@ -73,7 +73,7 @@
         wait: yes
         group: buildinstance
         count: 1
-        vpc_subnet_id: buildinstance_subnet
+        vpc_subnet_id: subnet-0511c252547a96696
         assign_public_ip: yes
 
     - name: create deployinstance
@@ -85,5 +85,5 @@
         wait: yes
         group: deployinstance
         count: 1
-        vpc_subnet_id: deployinstance_subnet
+        vpc_subnet_id: subnet-0e97e5e1099685356
         assign_public_ip: yes
