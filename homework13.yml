@@ -35,6 +35,29 @@
             to_port: 80
             cidr_ip: 0.0.0.0/0
 
+    - name: create vpc
+      ec2_vpc:
+      register: vpc
+        state: present
+        cidr_block: 172.30.30.0/24
+        resource_tags: { "homework" }
+        region: us-west-1
+        subnets:
+          - cidr: 172.30.30.11/32
+            az: us-west-1a
+            resource_tags: { "homework","build" }
+          - cidr: 172.30.30.12/32
+            az: us-west-1a
+            resource_tags: { "homework","deploy" }
+        internet_gateway: True
+        route_tables:
+          - subnets:
+              - 172.30.30.11/32
+              - 172.30.30.12/32
+            routes:
+              - dest: 0.0.0.0/0
+                gw: igw
+
     - name: create buildinstance
       ec2:
         key_name: ansiblekey1
@@ -44,7 +67,7 @@
         wait: yes
         group: buildinstance
         count: 1
-#        vpc_subnet_id: subnet-088ccb52
+        vpc_subnet_id: build
         assign_public_ip: yes
 
     - name: create deployinstance
@@ -56,5 +79,5 @@
         wait: yes
         group: deployinstance
         count: 1
-#        vpc_subnet_id: subnet-088ccb52
+        vpc_subnet_id: deploy
         assign_public_ip: yes
