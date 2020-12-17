@@ -13,14 +13,48 @@
       copy: content="{{ ansiblekey1.key.private_key }}" dest="./ansiblekey1.pem" mode=0600
       when: key1.changed
 
-    - name: create
+    - name: create security group for buildinstance
+      ec2_group:
+        name: buildinstance
+        description: for build-instance
+        region: eu-west-1
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+
+    - name: create security group for deployinstance
+      ec2_group:
+        name: deployinstance
+        description: for deploy-instance
+        region: eu-west-1
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+
+    - name: create buildinstance
       ec2:
         key_name: ansiblekey1
         instance_type: t2.micro
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-        group: ansible
-        count: 2
-        vpc_subnet_id: subnet-088ccb52
+        group: buildinstance
+        count: 1
+#        vpc_subnet_id: subnet-088ccb52
+        assign_public_ip: yes
+
+    - name: create deployinstance
+      ec2:
+        key_name: ansiblekey1
+        instance_type: t2.micro
+        image: ami-0dc8d444ee2a42d8a
+        region: eu-west-1
+        wait: yes
+        group: deployinstance
+        count: 1
+#        vpc_subnet_id: subnet-088ccb52
         assign_public_ip: yes
