@@ -5,13 +5,13 @@
   tasks:
     - name: create key pair
       ec2_key:
-        name: ansiblekey2
+        name: ansiblekey1
         region: eu-west-1
       register: ansiblekey1
 
     - name: save ansiblekey1 on localhost
       copy: content="{{ ansiblekey1.key.private_key }}" dest="./ansiblekey1.pem" mode=0600
-#      when: ansiblekey1.changed
+      when: ansiblekey1.changed
 
     - name: create security group for buildinstance
       ec2_group:
@@ -30,6 +30,10 @@
         description: for deploy-instance
         region: eu-west-1
         rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
           - proto: tcp
             from_port: 80
             to_port: 80
@@ -62,6 +66,28 @@
         resource_tags:
           Name: deployinstance subnet
       register: deployinstance_subnet
+
+    - name: create internet gateway
+      ec2_vpc_igw:
+        vpc_id: "{{ homework.vpc.id }}"
+        state: present
+      register: igw
+
+
+    - name: Set up public subnet route table
+      ec2_vpc_route_table:
+        vpc_id: "{{ homework.vpc.id }}"
+        region: eu-west-1
+        tags:
+          Name: public
+        subnets:
+          - "{{ jumpbox_subnet.subnet.id }}"
+          - "{{ frontend_subnet.subnet.id }}"
+          - "{{ vpn_subnet.subnet_id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+      register: public
 
     - name: create buildinstance
       ec2:
