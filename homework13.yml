@@ -70,10 +70,11 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-#        group: buildinstance
         count: 1
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
+        instance_tags:
+          Name: buildinstance
 
     - name: create deployinstance
       ec2:
@@ -82,7 +83,10 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-#        group: deployinstance
         count: 1
         vpc_subnet_id: "{{ deployinstance_subnet_subnet.subnet.id }}"
         assign_public_ip: yes
+        instance_tags:
+          Name: deployinstance
+
+#- name: prepare instance for build
