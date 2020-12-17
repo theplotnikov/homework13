@@ -70,7 +70,6 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-#        count: 1
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
         count_tag:
@@ -88,7 +87,6 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-#        count: 1
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
         count_tag:
@@ -99,7 +97,7 @@
       register: deployinstance
 
 - name: prepare instance for build
-  hosts: 18.202.217.112
+  hosts: build
   become: yes
   tasks:
 
@@ -129,7 +127,7 @@
         flat: yes
 
 - name: run war in deployinstance
-  hosts: 54.246.33.224
+  hosts: deploy
   become: yes
 
   tasks:
