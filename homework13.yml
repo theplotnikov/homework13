@@ -5,7 +5,7 @@
   tasks:
     - name: create key pair
       ec2_key:
-        name: ansiblekey1
+        name: ansiblekey2
         region: eu-west-1
       register: ansiblekey1
 
