@@ -72,7 +72,7 @@
         wait: yes
 #        group: buildinstance
         count: 1
-        vpc_subnet_id: subnet-0511c252547a96696
+        vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
 
     - name: create deployinstance
@@ -84,5 +84,5 @@
         wait: yes
 #        group: deployinstance
         count: 1
-        vpc_subnet_id: subnet-0e97e5e1099685356
+        vpc_subnet_id: "{{ deployinstance_subnet_subnet.subnet.id }}"
         assign_public_ip: yes
