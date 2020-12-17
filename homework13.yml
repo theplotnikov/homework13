@@ -37,12 +37,10 @@
 
     - name: create vpc
       ec2_vpc:
-      register: vpc
-        state: present
+              state: present
         cidr_block: 172.30.30.0/24
         resource_tags: { "homework" }
-        region: us-west-1
-        subnets:
+                subnets:
           - cidr: 172.30.30.11/32
             az: us-west-1a
             resource_tags: { "homework","build" }
@@ -57,6 +55,9 @@
             routes:
               - dest: 0.0.0.0/0
                 gw: igw
+        region: us-west-1
+      register: vpc
+
 
     - name: create buildinstance
       ec2:
