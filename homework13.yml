@@ -71,7 +71,7 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-        group: buildinstance
+        group: sg-035774b46f93216e2
         count: 1
         vpc_subnet_id: subnet-0511c252547a96696
         assign_public_ip: yes
@@ -83,7 +83,7 @@
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
         wait: yes
-        group: deployinstance
+        group: sg-0531ea7ab54a19a7
         count: 1
         vpc_subnet_id: subnet-0e97e5e1099685356
         assign_public_ip: yes
