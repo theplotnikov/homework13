@@ -83,7 +83,7 @@
         subnets:
           - "{{ buildinstance_subnet.subnet.id }}"
           - "{{ deployinstance_subnet.subnet.id }}"
-         routes:
+        routes:
           - dest: 0.0.0.0/0
             gateway_id: "{{ igw.gateway_id }}"
       register: public
