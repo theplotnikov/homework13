@@ -83,6 +83,6 @@
         region: eu-west-1
         wait: yes
         group: deployinstance
-        count: 1d
+        count: 1
         vpc_subnet_id: deployinstance_subnet
         assign_public_ip: yes
