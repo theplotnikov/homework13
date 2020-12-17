@@ -37,7 +37,7 @@
 
     - name: create vpc
       ec2_vpc:
-              state: present
+        state: present
         cidr_block: 172.30.30.0/24
         resource_tags: { "homework" }
                 subnets:
