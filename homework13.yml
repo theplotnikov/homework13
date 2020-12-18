@@ -140,7 +140,7 @@
         groups: buildinstance
 
 - name: prepare instance for build
-  hosts: build
+  hosts: buildinstance
   become: yes
   tasks:
 
@@ -170,7 +170,7 @@
         flat: yes
 
 - name: run war in deployinstance
-  hosts: deploy
+  hosts: deployinstance
   become: yes
 
   tasks:
