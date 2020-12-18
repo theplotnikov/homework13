@@ -105,7 +105,7 @@
           Name: buildinstance
         assign_public_ip: yes
       register: build
-      debug: var=build.public_ip
+    - debug: var=build.public_ip
 
     - name: create deployinstance
       ec2:
@@ -123,7 +123,7 @@
           Name: deployinstance
         assign_public_ip: yes
       register: deploy
-      debug: var=deploy.public_ip
+    - debug: var=deploy.public_ip
 
 #      register: output
 #    - name: print
