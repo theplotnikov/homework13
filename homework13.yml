@@ -123,8 +123,9 @@
           Name: deployinstance
         assign_public_ip: yes
       register: output
-    - debug:
-      var: output.instances[0].public_ip
+    - name:
+      debug:
+        var: output.instances[0].public_ip
 
 #    - name: add buildinstance to inventory
 #      add_host:
