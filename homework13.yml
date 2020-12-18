@@ -136,12 +136,12 @@
 
     - name: add buildinstance to inventory
       add_host:
-        name: {{ build.public_ip }}
+        name: "{{ build.public_ip }}"
         groupname: buildinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: {{ deployinstance.public_ip }}
+        name: "{{ deployinstance.public_ip }}"
         groupname: buildinstance
 
 - name: prepare instance for build
