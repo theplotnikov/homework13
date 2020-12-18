@@ -123,6 +123,15 @@
           Name: deployinstance
       register: deployinstance
 
+#      register: output
+#    - name: print
+#      debug:
+#        var: output.instances[0].public_ip
+#    - name: update inventory
+#     add_host:
+#        name: "{{ output.instances[0].public_ip }}"
+#        groups: amazon
+
     - name: execute buildinstance public ip
       debug:
         var: buildinstance.instances[0].public_ip
