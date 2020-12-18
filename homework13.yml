@@ -133,12 +133,10 @@
 #        groups: amazon
 
     - name: execute buildinstance public ip
-      debug:
-        var: build.public_ip
+      debug: var=build.public_ip
 
     - name: execute deployinstance public ip
-      debug:
-        var: deploy.public_ip
+      debug: var=deploy.public_ip
 
     - name: add buildinstance to inventory
       add_host:
