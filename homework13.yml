@@ -123,7 +123,7 @@
           Name: deployinstance
         assign_public_ip: yes
       register: output
-    - name:
+    - name: print
       debug:
         var: output.instances[0].public_ip
 
