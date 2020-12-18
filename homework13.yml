@@ -13,10 +13,21 @@
       copy: content="{{ ansiblekey1.key.private_key }}" dest="./ansiblekey1.pem" mode=0600
       when: ansiblekey1.changed
 
+    - name: create vpc
+      ec2_vpc_net:
+        name: homework
+        cidr_block: 172.30.0.0/16
+        region: eu-west-1
+        tags:
+          module: ec2_vpc_net
+          this: works
+      register: homework
+
     - name: create security group for buildinstance
       ec2_group:
         name: buildinstance
         description: for build-instance
+        vpc_id: "{{ homework.vpc.id }}"
         region: eu-west-1
         rules:
           - proto: tcp
@@ -28,6 +39,7 @@
       ec2_group:
         name: deployinstance
         description: for deploy-instance
+        vpc_id: "{{ homework.vpc.id }}"
         region: eu-west-1
         rules:
           - proto: tcp
@@ -38,16 +50,6 @@
             from_port: 80
             to_port: 80
             cidr_ip: 0.0.0.0/0
-
-    - name: create vpc
-      ec2_vpc_net:
-        name: homework
-        cidr_block: 172.30.0.0/16
-        region: eu-west-1
-        tags:
-          module: ec2_vpc_net
-          this: works
-      register: homework
 
     - name: create subnet for buildinstance
       ec2_vpc_subnet:
@@ -72,7 +74,6 @@
         vpc_id: "{{ homework.vpc.id }}"
         state: present
       register: igw
-
 
     - name: create public subnet routing table
       ec2_vpc_route_table:
@@ -119,6 +120,24 @@
         instance_tags:
           Name: deployinstance
       register: deployinstance
+
+    - name: execute buildinstance public ip
+      debug:
+        var: buildinstance.instances.public_ip
+
+    - name: execute deployinstance public ip
+      debug:
+        var: deployinstance.instances.public_ip
+
+    - name: add buildinstance to inventory
+      add_host:
+        name: "{{ buildinstance.instances.public_ip }}"
+        groups: buildinstance
+
+    - name: add deployinstance to inventory
+      add_host:
+        name: "{{ deployinstance.instances.public_ip }}"
+        groups: buildinstance
 
 - name: prepare instance for build
   hosts: build
