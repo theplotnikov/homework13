@@ -134,20 +134,20 @@
 
     - name: execute buildinstance public ip
       debug:
-        var: buildinstance.instances[0].public_ip
+        var: buildinstance.public_ip
 
     - name: execute deployinstance public ip
       debug:
-        var: deployinstance.instances[0].public_ip
+        var: deployinstance.public_ip
 
     - name: add buildinstance to inventory
       add_host:
-        name: "{{ buildinstance.instances[0].public_ip }}"
+        name: "{{ buildinstance.public_ip }}"
         groups: buildinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ deployinstance.instances[0].public_ip }}"
+        name: "{{ deployinstance.public_ip }}"
         groups: buildinstance
 
 - name: prepare instance for build
