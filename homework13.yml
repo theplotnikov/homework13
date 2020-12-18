@@ -98,13 +98,14 @@
         group: buildinstance
         wait: yes
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
-        assign_public_ip: yes
         count_tag:
           Name: buildinstance
         exact_count: 1
         instance_tags:
           Name: buildinstance
+        assign_public_ip: yes
       register: build
+      debug: var=build.public_ip
 
     - name: create deployinstance
       ec2:
@@ -115,13 +116,14 @@
         group: deployinstance
         wait: yes
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
-        assign_public_ip: yes
         count_tag:
           Name: deployinstance
         exact_count: 1
         instance_tags:
           Name: deployinstance
+        assign_public_ip: yes
       register: deploy
+      debug: var=deploy.public_ip
 
 #      register: output
 #    - name: print
@@ -132,21 +134,15 @@
 #        name: "{{ output.instances[0].public_ip }}"
 #        groups: amazon
 
-    - name: execute buildinstance public ip
-      debug: var=build.public_ip
-
-    - name: execute deployinstance public ip
-      debug: var=deploy.public_ip
-
     - name: add buildinstance to inventory
       add_host:
-        name: "{{ build.public_ip }}"
-        groups: buildinstance
+        name: {{ build.public_ip }}
+        groupname: buildinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ deployinstance.public_ip }}"
-        groups: buildinstance
+        name: {{ deployinstance.public_ip }}
+        groupname: buildinstance
 
 - name: prepare instance for build
   hosts: buildinstance
