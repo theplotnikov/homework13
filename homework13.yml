@@ -95,6 +95,7 @@
         instance_type: t2.micro
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
+        group: buildinstance
         wait: yes
         vpc_subnet_id: "{{ buildinstance_subnet.subnet.id }}"
         assign_public_ip: yes
@@ -111,6 +112,7 @@
         instance_type: t2.micro
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
+        group: buildinstance
         wait: yes
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
