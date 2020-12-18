@@ -125,7 +125,7 @@
       register: output
     - name: print
       debug:
-        var: output.instances.public_ip
+        var: output.instances."public_ip"
 
     #    - name: add buildinstance to inventory
     #      add_host:
@@ -134,7 +134,7 @@
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ output.instances.public_ip }}"
+        name: "{{ output.instances."public_ip" }}"
         groups: buildinstance
 
 - name: prepare instance for build
