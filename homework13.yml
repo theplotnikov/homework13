@@ -134,7 +134,7 @@
     - name: add deployinstance to inventory
       add_host:
         name: "{{ output.instances[0].public_ip }}"
-        groupname: buildinstance
+        groups: buildinstance
 
 - name: prepare instance for build
   hosts: buildinstance
