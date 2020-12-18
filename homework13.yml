@@ -105,7 +105,7 @@
           Name: buildinstance
         assign_public_ip: yes
       register: build
-    - debug: var=build.public_ip_address
+    - debug: var=build.instances.public_ip_address
 
     - name: create deployinstance
       ec2:
@@ -123,16 +123,16 @@
           Name: deployinstance
         assign_public_ip: yes
       register: deploy
-    - debug: var=deploy.public_ip_address
+    - debug: var=deploy.instances.public_ip_address
 
     - name: add buildinstance to inventory
       add_host:
-        name: "{{ build.public_ip_address }}"
+        name: "{{ build.instances.public_ip_address }}"
         groupname: buildinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ deploy.public_ip_address }}"
+        name: "{{ deploy.instances.public_ip_address }}"
         groupname: buildinstance
 
 - name: prepare instance for build
