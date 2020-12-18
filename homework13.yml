@@ -104,7 +104,7 @@
         exact_count: 1
         instance_tags:
           Name: buildinstance
-      register: output
+#      register: output
 
     - name: create deployinstance
       ec2:
@@ -121,25 +121,25 @@
         exact_count: 1
         instance_tags:
           Name: deployinstance
-#      register: output
+      register: output
 
-    - name: execute buildinstance public ip
-      debug:
-        var: output.instances[0].public_ip
-
-#    - name: execute deployinstance public ip
+#    - name: execute buildinstance public ip
 #      debug:
-#        var: output.instances[1].public_ip
+#        var: output.instances[0].public_ip
 
-    - name: add buildinstance to inventory
-      add_host:
-        name: "{{ output.instances[0].public_ip }}"
-        groups: buildinstance
+    - name: execute deployinstance public ip
+      debug:
+        var: output.instances[1].public_ip
 
-#    - name: add deployinstance to inventory
+#    - name: add buildinstance to inventory
 #      add_host:
-#        name: "{{ output.instances[1].public_ip }}"
+#        name: "{{ output.instances[0].public_ip }}"
 #        groups: buildinstance
+
+    - name: add deployinstance to inventory
+      add_host:
+        name: "{{ output.instances[1].public_ip }}"
+        groups: buildinstance
 
 - name: prepare instance for build
   hosts: buildinstance
