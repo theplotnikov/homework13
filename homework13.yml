@@ -104,7 +104,7 @@
         exact_count: 1
         instance_tags:
           Name: buildinstance
-#      register: output
+      register: buildinstance
 
     - name: create deployinstance
       ec2:
@@ -112,7 +112,7 @@
         instance_type: t2.micro
         image: ami-0dc8d444ee2a42d8a
         region: eu-west-1
-        group: buildinstance
+        group: deployinstance
         wait: yes
         vpc_subnet_id: "{{ deployinstance_subnet.subnet.id }}"
         assign_public_ip: yes
@@ -121,24 +121,24 @@
         exact_count: 1
         instance_tags:
           Name: deployinstance
-      register: output
+      register: deployinstance
 
-#    - name: execute buildinstance public ip
-#      debug:
-#        var: output.instances[0].public_ip
+    - name: execute buildinstance public ip
+      debug:
+        var: buildinstance.instances[0].public_ip
 
     - name: execute deployinstance public ip
       debug:
-        var: output.instances[0].public_ip
+        var: deployinstance.instances[0].public_ip
 
-#    - name: add buildinstance to inventory
-#      add_host:
-#        name: "{{ output.instances[0].public_ip }}"
-#        groups: buildinstance
+    - name: add buildinstance to inventory
+      add_host:
+        name: "{{ buildinstance.instances[0].public_ip }}"
+        groups: buildinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ output.instances[0].public_ip }}"
+        name: "{{ deployinstance.instances[0].public_ip }}"
         groups: buildinstance
 
 - name: prepare instance for build
