@@ -140,15 +140,19 @@
   become: yes
   tasks:
 
-    - name: ensure maven is present
+    - name: update apt cache
       apt:
-        name: maven
-        state: present
+        update_cache: yes
 
-    - name: ensure git is present
+    - name: ensure that maven, git, jdk is present
       apt:
-        name: git
+        name: {{ packages }}"
         state: present
+      vars:
+        packages:
+          - maven
+          - git
+          - default-jdk
 
     - name: clone boxfuse git repository
       git:
