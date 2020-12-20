@@ -104,8 +104,13 @@
         instance_tags:
           Name: buildinstance
         assign_public_ip: yes
-    #      register: build
-    #    - debug: var=build.instances.public_ip_address
+          register: buildinstance
+
+    - name: add buildinstance to inventory
+      add_host:
+        name: "{{ item.public_ip }}"
+        groups: buildinstance
+      loop: "{{ buildinstance.instances }}"
 
     - name: create deployinstance
       ec2:
@@ -122,20 +127,13 @@
         instance_tags:
           Name: deployinstance
         assign_public_ip: yes
-      register: output
-    - name: print
-      debug:
-        var: output.instances."public_ip"
-
-    #    - name: add buildinstance to inventory
-    #      add_host:
-    #        name: "{{ build.instances.public_ip_address }}"
-    #        groupname: buildinstance
+      register: deployinstance
 
     - name: add deployinstance to inventory
       add_host:
-        name: "{{ output.instances."public_ip" }}"
-        groups: buildinstance
+        name: "{{ item.public_ip }}"
+        groups: deployinstance
+      loop: "{{ deployinstance.instances }}"
 
 - name: prepare instance for build
   hosts: buildinstance
