@@ -104,7 +104,7 @@
         instance_tags:
           Name: buildinstance
         assign_public_ip: yes
-          register: buildinstance
+      register: buildinstance
 
     - name: add buildinstance to inventory
       add_host:
